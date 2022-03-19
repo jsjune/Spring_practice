@@ -1,13 +1,11 @@
 package com.sparta.board.controller;
 
 import com.sparta.board.domain.Board;
+import com.sparta.board.domain.BoardDto;
 import com.sparta.board.domain.BoardRepository;
 import com.sparta.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,20 +15,25 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final BoardService boardService;
 
-    @GetMapping("/api/boards")
+    @GetMapping("/api/boards") // 전체 게시글 목록으로 보여주기
     public List<Board> MainBoard(){
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
-//    @GetMapping("/api/boards/write")
+    //    @GetMapping("/api/boards/write") // 게시글 작성화면
 //
-//    @PostMapping("/api/boards/write")
-//
-//    @GetMapping("/api/boards/{id}")
+//    @PostMapping("/api/boards/write") // 게시글 작성하기
+//    public Board createBoard(@RequestBody BoardDto boardDto) {
+//        Board board = new Board(boardDto);
+//        boardRepository.save(board);
+//        return "redirect:view";
+//    }
+
+//    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
 //    public Long DetailBoard(@PathVariable Long id) {
 //
 //    }
 
-//    @GetMapping("/api/boards/{id}")
+//    @DeleteMapping("/api/boards/{id}") // 게시글 삭제하기
 
 }
