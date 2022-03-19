@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@RequiredArgsConstructor // ?
+// 주로 의존성 주입(Dependency Injection) 편의성을 위해 사용
+@RequiredArgsConstructor // 초기화 되지않는 final필드나, @NonNull이 붙은 필드에 대해 생성자를 생성해 준다.
 @Service // 스프링에게 이 클래스는 서비스임을 명시
 public class PersonService {
 
