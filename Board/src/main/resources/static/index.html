@@ -117,13 +117,27 @@
         }
 
         function addHTML(id,title,username,content,modifiedAt){
-            let tempHTML = `<tr style=" cursor: pointer;" onclick="location.href='/api/articles/{id}';" >
+            let tempHTML = `<tr style=" cursor: pointer;" onclick="location.href='/api/boards/${id}';" >
                                 <th scope="row">${id}</th>
                                 <td id="${id}-title" >${title}</td>
                                 <td id="${id}-name" >${username}</td>
                                 <td>${modifiedAt}</td>
                             </tr>`;
             $('#list').append(tempHTML);
+        }
+
+        function detailBoard(id){
+            $.ajax({
+                type:"GET",
+                url:`api/memos/${id}`,
+                success: function(response){
+                    for (let i = 0; i < response.length; i++) {
+                        let title = response.title;
+                        let username = response.username;
+                        let content = response.content;
+                    }
+                }
+            })
         }
 
         function isValidContents(content) {
@@ -169,12 +183,16 @@
         function close_box() {
             $('#post-box').hide()
         }
+
+        function open_modal(){
+            $('#mymodal').show()
+        }
     </script>
 </head>
 
 <body>
 <div class="mytitle">
-    <h1>개시판</h1>
+    <h1>게시판</h1>
     <button onclick="open_box()">게시글 작성</button>
 </div>
 <div class="mypost" id="post-box">
@@ -206,7 +224,7 @@
     </tr>
     </thead>
     <tbody id="list">
-    <tr style=" cursor: pointer;" onclick="location.href='/api/articles/{id}';" >
+    <tr style=" cursor: pointer;" onclick="location.href='/api/boards/{id}';" >
         <th scope="row">1</th>
         <td>1</td>
         <td>2</td>
@@ -214,6 +232,10 @@
     </tr>
     </tbody>
 </table>
+<!-- Vertically centered modal -->
+
+
+
 </body>
 
 </html>
