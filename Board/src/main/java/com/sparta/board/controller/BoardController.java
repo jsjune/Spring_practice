@@ -20,20 +20,15 @@ public class BoardController {
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    //    @GetMapping("/api/boards/write") // 게시글 작성화면
-//
-//    @PostMapping("/api/boards/write") // 게시글 작성하기
-//    public Board createBoard(@RequestBody BoardDto boardDto) {
-//        Board board = new Board(boardDto);
-//        boardRepository.save(board);
-//        return "redirect:view";
-//    }
+    @PostMapping("/api/boards") // 게시글 작성
+    public Board createBoard(@RequestBody BoardDto boardDto) {
+        Board board = new Board(boardDto);
+        return boardRepository.save(board);
+    }
 
-//    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
-//    public Long DetailBoard(@PathVariable Long id) {
-//
-//    }
-
-//    @DeleteMapping("/api/boards/{id}") // 게시글 삭제하기
+    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
+    public Long DetailBoard(@PathVariable Long id) {
+        return id;
+    }
 
 }
