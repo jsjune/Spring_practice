@@ -50,3 +50,5 @@
 ### - 톰켓
 
 ### - log(로그)
+
+### - application.properties
