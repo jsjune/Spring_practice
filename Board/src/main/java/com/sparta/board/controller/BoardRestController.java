@@ -18,7 +18,7 @@ public class BoardRestController {
 
     @ResponseBody
     @GetMapping("/api/boards") // 전체 게시글 목록으로 보여주기
-    public List<Board> MainBoard(){
+    public List<Board> MainBoard() {
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
@@ -30,25 +30,23 @@ public class BoardRestController {
     }
 
 
-
-//    @RequestMapping(value="/api/boards/{id}",method=RequestMethod.GET)
+    //    @RequestMapping(value="/api/boards/{id}",method=RequestMethod.GET)
 //    public void detalBoard(Board ) {
 //
 //    }
-    @ResponseBody
-    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
-    public Board detailBoard1(@PathVariable Long id) {
-        Board board = boardRepository.findById(id).orElseThrow( // 필요한 정보를 찾는다
-                () -> new IllegalArgumentException("")
-        );
-        return board;
-    }
-
     @GetMapping("/api/boards/detail") // 게시글 상세 화면
-    public String detailBoard(@RequestParam("id") Long id) {
+    public String detailBoard(@RequestParam("id") String id) { // RequestParam은 /detail?id=${id}에서 id의 값을 의미한다
         return "/detail.html";
     }
 
+    @ResponseBody
+    @GetMapping("/api/detail/{id}") // 게시글 상세 화면
+    public Board detailBoard1(@PathVariable Long id) {
+        Board board = boardRepository.findById(id).orElseThrow( // 필요한 정보를 찾는다
+                () -> new IllegalArgumentException()
+        );
+        return board;
+    }
 
 //    @RequestMapping("/api/boards/{id}") // 게시글 상세 화면
 //    public String DetailBoard(@PathVariable Long id) {

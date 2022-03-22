@@ -73,14 +73,14 @@
         // let id = getParameter("id");
 
         let getLink = window.location.search;
-        let id = decodeURI(getLink.split('=')[1])
+        let id = decodeURI(getLink.split('=')[1]);
         getBoard(id);
 
         function getBoard() {
             console.log(id)
             $.ajax({
                 type: 'GET',
-                url: `/api/boards/${id}`,
+                url: `/api/detail/${id}`,
                 data: {},
                 success: function (response) {
                     // for (let i = 0; i < response.length; i++) {
@@ -124,10 +124,10 @@
 </head>
 
 <body>
-<div class="mytitle">
+<a href="http://localhost:8080/" class="mytitle">
     <h1>게시판</h1>
 
-</div>
+</a>
 <body>
 <div id="board_write">
 
