@@ -56,52 +56,70 @@
 
     </style>
     <script>
-        $(document).ready(function () {
-            getBoard();
-        });
-        function getBoard(){
-            $.ajax({
-                type:'GET',
-                url:`/api/boards/${id}`,
-                success: function(response){
-                    for (let i = 0; i < response.length; i++) {
-                        let board = response[i];
-                        let id = board.id;
-                        let title = board.title;
-                        let username = board.username;
-                        let content = board.content;
-                        let modifiedAt = board.modifiedAt;
+        // $(document).ready(function () {
+        // });
+        // function getParameter(name) {
+        //     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        //     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+        //     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
+        // }
 
-                        addHTML(id,title, username, content, modifiedAt);
-                    }
+        // $(document).ready(function () {
+            // getBoard()
+            // let getLink = window.location.search;
+            // let id = decodeURI(getLink.split('=')[1])
+            // getBoard(id);
+        // })
+        // let id = getParameter("id");
+
+        let getLink = window.location.search;
+        let id = decodeURI(getLink.split('=')[1])
+        getBoard(id);
+
+        function getBoard() {
+            console.log(id)
+            $.ajax({
+                type: 'GET',
+                url: `/api/boards/${id}`,
+                data: {},
+                success: function (response) {
+                    // for (let i = 0; i < response.length; i++) {
+                    //     let board = response[i];
+                    console.log(response)
+                    $('#title').text(response['title']);
+                    $('#username').text(response['username']);
+                    $('#content').text(response['content']);
+                    $('#modifiedAt').text(response['modifiedAt']);
+                    // addHTML(id,title, username, content, modifiedAt);
+                    // }
                 }
             })
         }
 
-        function addHTML(id,title,username,content,modifiedAt){
-            let tempHTML = ` <div id="in_title">
-                                <textarea name="title" id="utitle" rows="1" cols="30" placeholder="제목" maxlength="100" required>${title}</textarea>
-                            </div>
-
-                            <div id="in_user">
-                                <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100" required>${username}</textarea>
-                            </div>
-
-                            <div class="wi_line"></div>
-                            <div id="in_content">
-                                <textarea name="content" cols="30" id="ucontent" placeholder="내용" required>${content}</textarea>
-                            </div>
-                            <span>${modifiedAt}</span>
-
-                            <div class="bt_se">
-                                <button type="submit">수정</button>
-                            </div>
-
-                            <div class="bt_se">
-                                <button type="submit">삭제</button>
-                            </div>`;
-            $('#board_write').append(tempHTML);
-        }
+        // function addHTML(id,title,username,content,modifiedAt){
+        //     let tempHTML = ` <div id="in_title">
+        //                         <textarea name="title" id="utitle" rows="1" cols="30" placeholder="제목" maxlength="100" required>${title}</textarea>
+        //                     </div>
+        //
+        //                     <div id="in_user">
+        //                         <textarea name="user" id="username" rows="1" cols="30" placeholder="사용자" maxlength="100" required>${username}</textarea>
+        //                     </div>
+        //
+        //                     <div class="wi_line"></div>
+        //                     <div id="in_content">
+        //                         <textarea name="content" cols="30" id="ucontent" placeholder="내용" required>${content}</textarea>
+        //                     </div>
+        //                     <span>${modifiedAt}</span>
+        //
+        //                     <div class="bt_se">
+        //                         <button type="submit">수정</button>
+        //                     </div>
+        //
+        //                     <div class="bt_se">
+        //                         <button type="submit">삭제</button>
+        //                     </div>`;
+        //     $('#board_write').append(tempHTML);
+        // }
     </script>
 </head>
 
@@ -114,30 +132,31 @@
 <div id="board_write">
 
     <div id="write_area">
-<!--        <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
-            <h2>게시판</h2>
-            <div id="in_title">
-                <textarea name="title" id="utitle" rows="1" cols="30" placeholder="제목" maxlength="100" required>제목</textarea>
-            </div>
+        <!--        <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
+        <h2>게시판</h2>
+        <div id="in_title">
+            <textarea name="title" id="title" rows="1" cols="30" placeholder="제목" maxlength="100" required>제목</textarea>
+        </div>
 
-            <div id="in_user">
-                <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100" required>작성자</textarea>
-            </div>
+        <div id="in_user">
+            <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100"
+                      required>작성자</textarea>
+        </div>
 
-            <div class="wi_line"></div>
-            <div id="in_content">
-                <textarea name="content" cols="30" id="ucontent" placeholder="내용" required>내용</textarea>
-            </div>
-            <span>시간</span>
+        <div class="wi_line"></div>
+        <div id="in_content">
+            <textarea name="content" cols="30" id="content" placeholder="내용" required>내용</textarea>
+        </div>
+        <span id="modifiedAt">시간</span>
 
-            <div class="bt_se">
-                <button type="submit">수정</button>
-            </div>
+        <div class="bt_se">
+            <button type="submit">수정</button>
+        </div>
 
-            <div class="bt_se">
-                <button type="submit">삭제</button>
-            </div>
-<!--        </form>-->
+        <div class="bt_se">
+            <button type="submit">삭제</button>
+        </div>
+        <!--        </form>-->
     </div>
 </div>
 </body>

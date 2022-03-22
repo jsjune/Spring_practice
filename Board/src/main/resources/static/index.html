@@ -117,13 +117,17 @@
         }
 
         function addHTML(id,title,username,content,modifiedAt){
-            let tempHTML = `<tr style=" cursor: pointer;" onclick="location.href='/api/boards/${id}';" >
+            let tempHTML = `<tr style=" cursor: pointer;" onclick="detail('${id}')" >
                                 <th scope="row">${id}</th>
                                 <td id="${id}-title" >${title}</td>
                                 <td id="${id}-name" >${username}</td>
                                 <td>${modifiedAt}</td>
                             </tr>`;
             $('#list').append(tempHTML);
+        }
+
+        function detail(id) {
+            window.location.href = `/api/boards/detail?id=${id}`
         }
 
         function detailBoard(id){

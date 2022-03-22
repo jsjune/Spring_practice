@@ -29,19 +29,32 @@ public class BoardRestController {
         return boardRepository.save(board);
     }
 
+
+
 //    @RequestMapping(value="/api/boards/{id}",method=RequestMethod.GET)
 //    public void detalBoard(Board ) {
 //
 //    }
-
+    @ResponseBody
     @GetMapping("/api/boards/{id}") // 게시글 상세 화면
-    public Board DetailBoard(@PathVariable Long id) {
-        return boardRepository.findById(id).get();
+    public Board detailBoard1(@PathVariable Long id) {
+        Board board = boardRepository.findById(id).orElseThrow( // 필요한 정보를 찾는다
+                () -> new IllegalArgumentException("")
+        );
+        return board;
     }
 
-//    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
-//    public Board DetailBoard(Board board) {
-//        return board;
+    @GetMapping("/api/boards/detail") // 게시글 상세 화면
+    public String detailBoard(@RequestParam("id") Long id) {
+        return "/detail.html";
+    }
+
+
+//    @RequestMapping("/api/boards/{id}") // 게시글 상세 화면
+//    public String DetailBoard(@PathVariable Long id) {
+//        Board board = boardRepository.findById(id).get();
+//        board.addAttribute("id", id);
+//        return "detail";
 //    }
 //    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
 //    public Long DetailBoard() {
