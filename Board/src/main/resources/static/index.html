@@ -130,19 +130,19 @@
             window.location.href = `/api/boards/detail?id=${id}` // detail.html에 id값을 던져줌
         }
 
-        function detailBoard(id){
-            $.ajax({
-                type:"GET",
-                url:`api/memos/${id}`,
-                success: function(response){
-                    for (let i = 0; i < response.length; i++) {
-                        let title = response.title;
-                        let username = response.username;
-                        let content = response.content;
-                    }
-                }
-            })
-        }
+        // function detailBoard(id){
+        //     $.ajax({
+        //         type:"GET",
+        //         url:`api/memos/${id}`,
+        //         success: function(response){
+        //             for (let i = 0; i < response.length; i++) {
+        //                 let title = response.title;
+        //                 let username = response.username;
+        //                 let content = response.content;
+        //             }
+        //         }
+        //     })
+        // }
 
         function isValidContents(content) {
             if (content == '') {
@@ -188,9 +188,7 @@
             $('#post-box').hide()
         }
 
-        function open_modal(){
-            $('#mymodal').show()
-        }
+
     </script>
 </head>
 

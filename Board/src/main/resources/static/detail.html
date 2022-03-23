@@ -54,6 +54,32 @@
             border: 2px solid white;
         }
 
+        .detail{
+            text-align: center;
+        }
+
+        table.table2{
+            border-collapse: separate;
+            border-spacing: 1px;
+            text-align: left;
+            line-height: 1.5;
+            border-top: 1px solid #ccc;
+            margin : 20px 10px;
+        }
+        table.table2 tr {
+            width: 50px;
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+        }
+        table.table2 td {
+            width: 100px;
+            padding: 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+        }
+
     </style>
     <script>
         // $(document).ready(function () {
@@ -71,10 +97,11 @@
             // getBoard(id);
         // })
         // let id = getParameter("id");
-
-        let getLink = window.location.search;
-        let id = decodeURI(getLink.split('=')[1]);
-        getBoard(id);
+        $(document).ready(function () {
+            getBoard(id);
+        });
+            let getLink = window.location.search;
+            let id = decodeURI(getLink.split('=')[1]);
 
         function getBoard() {
             console.log(id)
@@ -86,6 +113,7 @@
                     // for (let i = 0; i < response.length; i++) {
                     //     let board = response[i];
                     console.log(response)
+
                     $('#title').text(response['title']);
                     $('#username').text(response['username']);
                     $('#content').text(response['content']);
@@ -95,71 +123,113 @@
                 }
             })
         }
+        function isValidContents(content) {
+            if (content == '') {
+                alert('내용을 입력해주세요');
+                return false;
+            }
+            if (content.trim().length > 140) {
+                alert('공백 포함 140자 이하로 입력해주세요');
+                return false;
+            }
+            return true;
+        }
 
-        // function addHTML(id,title,username,content,modifiedAt){
-        //     let tempHTML = ` <div id="in_title">
-        //                         <textarea name="title" id="utitle" rows="1" cols="30" placeholder="제목" maxlength="100" required>${title}</textarea>
-        //                     </div>
-        //
-        //                     <div id="in_user">
-        //                         <textarea name="user" id="username" rows="1" cols="30" placeholder="사용자" maxlength="100" required>${username}</textarea>
-        //                     </div>
-        //
-        //                     <div class="wi_line"></div>
-        //                     <div id="in_content">
-        //                         <textarea name="content" cols="30" id="ucontent" placeholder="내용" required>${content}</textarea>
-        //                     </div>
-        //                     <span>${modifiedAt}</span>
-        //
-        //                     <div class="bt_se">
-        //                         <button type="submit">수정</button>
-        //                     </div>
-        //
-        //                     <div class="bt_se">
-        //                         <button type="submit">삭제</button>
-        //                     </div>`;
-        //     $('#board_write').append(tempHTML);
+        // function submitEdit() {
+        //     let username = $('#username').text().trim();
+        //     let content =$('#content').text().trim();
+        //     if (isValidContents(content) == false) {
+        //         return;
+        //     }
+        //     // 3. 전달할 data JSON으로 만듭니다.
+        //     let data = {'username': username, 'content': content};
+        //     // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+        //     $.ajax({
+        //         type:"PUT",
+        //         url:`api/boards/${id}`,
+        //         data: JSON.stringify(data),
+        //         contentType: 'application/json',
+        //         success: function(response){
+        //             alert("변경 완료")
+        //             window.location.reload();
+        //         }
+        //     })
         // }
     </script>
 </head>
 
 <body>
-<a href="http://localhost:8080/" class="mytitle">
+<a href="/" class="mytitle">
     <h1>게시판</h1>
-
 </a>
-<body>
-<div id="board_write">
+<div class="detail" id="board_write">
 
-    <div id="write_area">
+<!--    <div id="write_area">-->
+<!--        <h2>게시판</h2>-->
+<!--        <div id="in_title">-->
+<!--            <textarea name="title" id="title" rows="1" cols="30" placeholder="제목" maxlength="100" required>제목</textarea>-->
+<!--        </div>-->
+
+<!--        <div id="in_user">-->
+<!--            <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100"-->
+<!--                      required>작성자</textarea>-->
+<!--        </div>-->
+
+<!--        <div class="wi_line"></div>-->
+<!--        <div id="in_content">-->
+<!--            <textarea name="content" cols="30" id="content" placeholder="내용" required>내용</textarea>-->
+<!--        </div>-->
+<!--        <span id="modifiedAt">시간</span>-->
+
+<!--        <div class="bt_se">-->
+<!--            <button onclick="submitEdit()" type="submit">수정</button>-->
+<!--        </div>-->
+
+<!--        <div class="bt_se">-->
+<!--            <button onclick="deleteOne()" type="submit">삭제</button>-->
+<!--        </div>-->
+<!--    </div>-->
         <!--        <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
-        <h2>게시판</h2>
-        <div id="in_title">
-            <textarea name="title" id="title" rows="1" cols="30" placeholder="제목" maxlength="100" required>제목</textarea>
-        </div>
-
-        <div id="in_user">
-            <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100"
-                      required>작성자</textarea>
-        </div>
-
-        <div class="wi_line"></div>
-        <div id="in_content">
-            <textarea name="content" cols="30" id="content" placeholder="내용" required>내용</textarea>
-        </div>
-        <span id="modifiedAt">시간</span>
-
-        <div class="bt_se">
-            <button type="submit">수정</button>
-        </div>
-
-        <div class="bt_se">
-            <button type="submit">삭제</button>
-        </div>
         <!--        </form>-->
-    </div>
+
+        <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
+            <tr>
+                <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
+            </tr>
+            <tr>
+                <td bgcolor=white>
+                    <table class = "table2">
+                        <tr>
+                            <td>작성자</td>
+                            <td id="username"><input  type = text name = name size=20> </td>
+                        </tr>
+
+                        <tr>
+                            <td>제목</td>
+                            <td id="title"><input  type = text name = title size=60></td>
+                        </tr>
+
+                        <tr>
+                            <td>내용</td>
+                            <td><textarea id="content" name = content cols=85 rows=15></textarea></td>
+                        </tr>
+
+                        <tr>
+                            <td >작성시간</td>
+                            <td id="modifiedAt"><input  type=password  type = password name = pw size=10 maxlength=10></td>
+                        </tr>
+
+                    </table>
+
+                    <center>
+                        <input type = "submit" value="수정">
+                    </center>
+                </td>
+            </tr>
+        </table>
+
 </div>
-</body>
+
 
 </body>
 </html>

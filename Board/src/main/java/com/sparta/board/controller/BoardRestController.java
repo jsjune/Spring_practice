@@ -30,14 +30,10 @@ public class BoardRestController {
     }
 
 
-    //    @RequestMapping(value="/api/boards/{id}",method=RequestMethod.GET)
-//    public void detalBoard(Board ) {
-//
-//    }
     @GetMapping("/api/boards/detail") // 게시글 상세 화면
     public String detailBoard(@RequestParam("id") String id) { // RequestParam은 /detail?id=${id}에서 id의 값을 의미한다
         return "/detail.html";
-    }
+    } // /api/boards/detail?id=${id}
 
     @ResponseBody
     @GetMapping("/api/detail/{id}") // 게시글 상세 화면
@@ -48,15 +44,9 @@ public class BoardRestController {
         return board;
     }
 
-//    @RequestMapping("/api/boards/{id}") // 게시글 상세 화면
-//    public String DetailBoard(@PathVariable Long id) {
-//        Board board = boardRepository.findById(id).get();
-//        board.addAttribute("id", id);
-//        return "detail";
+//    @PutMapping("/api/detail/{id}")
+//    public Long updateBoard(@PathVariable Long id, @RequestBody BoardDto boardDto) {
+//        boardService.update(id, boardDto);
+//        return id;
 //    }
-//    @GetMapping("/api/boards/{id}") // 게시글 상세 화면
-//    public Long DetailBoard() {
-//        return "detail";
-//    }
-
 }
