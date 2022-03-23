@@ -53,4 +53,4 @@
 
 ### - application.properties
 
-### - Optinal 클래스
+### - Optional 클래스
