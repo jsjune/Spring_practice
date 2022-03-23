@@ -67,7 +67,7 @@
             margin : 20px 10px;
         }
         table.table2 tr {
-            width: 50px;
+            width: 100px;
             padding: 10px;
             font-weight: bold;
             vertical-align: top;
@@ -111,18 +111,62 @@
                 data: {},
                 success: function (response) {
                     // for (let i = 0; i < response.length; i++) {
-                    //     let board = response[i];
-                    console.log(response)
 
-                    $('#title').text(response['title']);
-                    $('#username').text(response['username']);
-                    $('#content').text(response['content']);
-                    $('#modifiedAt').text(response['modifiedAt']);
-                    // addHTML(id,title, username, content, modifiedAt);
-                    // }
+                        let id = response['id'];
+                        let title = response['title'];
+                        let username = response['username'];
+                        let content = response['content'];
+                        let modifiedAt = response['modifiedAt'];
+                        addHTML(id,title, username, content, modifiedAt)
+
+                        // $('#title').text(response['title']);
+                        // $('#username').text(response['username']);
+                        // $('#content').text(response['content']);
+                        // $('#modifiedAt').text(response['modifiedAt']);
+
                 }
             })
         }
+
+        function addHTML(id,title,username,content,modifiedAt){
+            let tempHTML = `
+                               <tr>
+                                    <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
+                                </tr>
+                                <tr>
+                                    <td bgcolor=white>
+                                        <table class = "table2">
+                                            <tr>
+                                                <td>작성자</td>
+                                                <td id="username"><input type = text value="${username}" name = name size=30></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>제목</td>
+                                                <td id="title"><input value="${title}" type = text name = title size=60></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>내용</td>
+                                                <td><textarea id="content" name = content cols=85 rows=15>${content}</textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td >작성시간</td>
+                                                <td ><input value="${modifiedAt}" type=text name = pw size=30 maxlength=30></td>
+                                            </tr>
+
+                                        </table>
+
+                                        <center>
+                                            <input type = "submit" value="수정">
+                                        </center>
+                                    </td>
+                                </tr>
+                            `;
+            $('#board_write').append(tempHTML);
+        }
+
         function isValidContents(content) {
             if (content == '') {
                 alert('내용을 입력해주세요');
@@ -163,7 +207,7 @@
     <h1>게시판</h1>
 </a>
 <div class="detail" id="board_write">
-
+    <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
 <!--    <div id="write_area">-->
 <!--        <h2>게시판</h2>-->
 <!--        <div id="in_title">-->
@@ -189,45 +233,45 @@
 <!--            <button onclick="deleteOne()" type="submit">삭제</button>-->
 <!--        </div>-->
 <!--    </div>-->
-        <!--        <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
-        <!--        </form>-->
+<!--                <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
+<!--                </form>-->
 
-        <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
-            <tr>
-                <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
-            </tr>
-            <tr>
-                <td bgcolor=white>
-                    <table class = "table2">
-                        <tr>
-                            <td>작성자</td>
-                            <td id="username"><input  type = text name = name size=20> </td>
-                        </tr>
+<!--        <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >-->
+<!--            <tr>-->
+<!--                <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td bgcolor=white>-->
+<!--                    <table class = "table2">-->
+<!--                        <tr>-->
+<!--                            <td>작성자</td>-->
+<!--                            <td id="username"><input  type = text name = name size=20> </td>-->
+<!--                        </tr>-->
 
-                        <tr>
-                            <td>제목</td>
-                            <td id="title"><input  type = text name = title size=60></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td>제목</td>-->
+<!--                            <td id="title"><input  type = text name = title size=60></td>-->
+<!--                        </tr>-->
 
-                        <tr>
-                            <td>내용</td>
-                            <td><textarea id="content" name = content cols=85 rows=15></textarea></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td>내용</td>-->
+<!--                            <td><textarea id="content" name = content cols=85 rows=15></textarea></td>-->
+<!--                        </tr>-->
 
-                        <tr>
-                            <td >작성시간</td>
-                            <td id="modifiedAt"><input  type=password  type = password name = pw size=10 maxlength=10></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td >작성시간</td>-->
+<!--                            <td id="modifiedAt"><input  type=password  type = password name = pw size=10 maxlength=10></td>-->
+<!--                        </tr>-->
 
-                    </table>
+<!--                    </table>-->
 
-                    <center>
-                        <input type = "submit" value="수정">
-                    </center>
-                </td>
-            </tr>
-        </table>
-
+<!--                    <center>-->
+<!--                        <input type = "submit" value="수정">-->
+<!--                    </center>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </table>-->
+    </table>
 </div>
 
 
