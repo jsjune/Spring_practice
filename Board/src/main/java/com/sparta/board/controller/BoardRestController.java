@@ -16,8 +16,8 @@ public class BoardRestController {
     private final BoardRepository boardRepository;
     private final BoardService boardService;
 
-    @ResponseBody
     @GetMapping("/api/boards") // 전체 게시글 목록으로 보여주기
+    @ResponseBody
     public List<Board> MainBoard() {
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
@@ -29,11 +29,10 @@ public class BoardRestController {
         return boardRepository.save(board);
     }
 
-
-    @GetMapping("/api/boards/detail") // 게시글 상세 화면
+    @GetMapping("/api/boards/detail")
     public String detailBoard(@RequestParam("id") String id) { // RequestParam은 /detail?id=${id}에서 id의 값을 의미한다
         return "/detail.html";
-    } // /api/boards/detail?id=${id}
+    }
 
     @ResponseBody
     @GetMapping("/api/detail/{id}") // 게시글 상세 화면
@@ -44,9 +43,9 @@ public class BoardRestController {
         return board;
     }
 
-//    @PutMapping("/api/detail/{id}")
-//    public Long updateBoard(@PathVariable Long id, @RequestBody BoardDto boardDto) {
-//        boardService.update(id, boardDto);
-//        return id;
-//    }
+    @DeleteMapping("/api/detail/{id}")
+    public Long deleteBoard(@PathVariable Long id) {
+        boardRepository.deleteById(id);
+        return id;
+    }
 }

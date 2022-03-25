@@ -25,5 +25,4 @@ public class WebMvcConfig {
         return new MappingJackson2HttpMessageConverter(copy);
     }
 
-
 }

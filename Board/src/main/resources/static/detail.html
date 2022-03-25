@@ -82,21 +82,6 @@
 
     </style>
     <script>
-        // $(document).ready(function () {
-        // });
-        // function getParameter(name) {
-        //     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        //     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
-        //     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
-        // }
-
-        // $(document).ready(function () {
-            // getBoard()
-            // let getLink = window.location.search;
-            // let id = decodeURI(getLink.split('=')[1])
-            // getBoard(id);
-        // })
-        // let id = getParameter("id");
         $(document).ready(function () {
             getBoard(id);
         });
@@ -118,11 +103,6 @@
                         let content = response['content'];
                         let modifiedAt = response['modifiedAt'];
                         addHTML(id,title, username, content, modifiedAt)
-
-                        // $('#title').text(response['title']);
-                        // $('#username').text(response['username']);
-                        // $('#content').text(response['content']);
-                        // $('#modifiedAt').text(response['modifiedAt']);
 
                 }
             })
@@ -161,10 +141,26 @@
                                         <center>
                                             <input type = "submit" value="수정">
                                         </center>
+                                        <center>
+                                            <button onclick="deleteOne()">삭제</button>
+                                        </center>
                                     </td>
                                 </tr>
                             `;
             $('#board_write').append(tempHTML);
+        }
+
+        // 메모를 삭제합니다.
+        function deleteOne() {
+            // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+            $.ajax({
+                type:'DELETE',
+                url:`/api/detail/${id}`,
+                success: function(){
+                    alert('삭제가 완료되었습니다.');
+                    window.location.href="/";
+                }
+            })
         }
 
         function isValidContents(content) {
@@ -179,26 +175,6 @@
             return true;
         }
 
-        // function submitEdit() {
-        //     let username = $('#username').text().trim();
-        //     let content =$('#content').text().trim();
-        //     if (isValidContents(content) == false) {
-        //         return;
-        //     }
-        //     // 3. 전달할 data JSON으로 만듭니다.
-        //     let data = {'username': username, 'content': content};
-        //     // 4. PUT /api/memos/{id} 에 data를 전달합니다.
-        //     $.ajax({
-        //         type:"PUT",
-        //         url:`api/boards/${id}`,
-        //         data: JSON.stringify(data),
-        //         contentType: 'application/json',
-        //         success: function(response){
-        //             alert("변경 완료")
-        //             window.location.reload();
-        //         }
-        //     })
-        // }
     </script>
 </head>
 
@@ -208,69 +184,7 @@
 </a>
 <div class="detail" id="board_write">
     <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
-<!--    <div id="write_area">-->
-<!--        <h2>게시판</h2>-->
-<!--        <div id="in_title">-->
-<!--            <textarea name="title" id="title" rows="1" cols="30" placeholder="제목" maxlength="100" required>제목</textarea>-->
-<!--        </div>-->
 
-<!--        <div id="in_user">-->
-<!--            <textarea name="user" id="username" rows="1" cols="30" placeholder="제목" maxlength="100"-->
-<!--                      required>작성자</textarea>-->
-<!--        </div>-->
-
-<!--        <div class="wi_line"></div>-->
-<!--        <div id="in_content">-->
-<!--            <textarea name="content" cols="30" id="content" placeholder="내용" required>내용</textarea>-->
-<!--        </div>-->
-<!--        <span id="modifiedAt">시간</span>-->
-
-<!--        <div class="bt_se">-->
-<!--            <button onclick="submitEdit()" type="submit">수정</button>-->
-<!--        </div>-->
-
-<!--        <div class="bt_se">-->
-<!--            <button onclick="deleteOne()" type="submit">삭제</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--                <form enctype="multipart/form-data" action="/api/boards/{id}" method="get">-->
-<!--                </form>-->
-
-<!--        <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >-->
-<!--            <tr>-->
-<!--                <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td bgcolor=white>-->
-<!--                    <table class = "table2">-->
-<!--                        <tr>-->
-<!--                            <td>작성자</td>-->
-<!--                            <td id="username"><input  type = text name = name size=20> </td>-->
-<!--                        </tr>-->
-
-<!--                        <tr>-->
-<!--                            <td>제목</td>-->
-<!--                            <td id="title"><input  type = text name = title size=60></td>-->
-<!--                        </tr>-->
-
-<!--                        <tr>-->
-<!--                            <td>내용</td>-->
-<!--                            <td><textarea id="content" name = content cols=85 rows=15></textarea></td>-->
-<!--                        </tr>-->
-
-<!--                        <tr>-->
-<!--                            <td >작성시간</td>-->
-<!--                            <td id="modifiedAt"><input  type=password  type = password name = pw size=10 maxlength=10></td>-->
-<!--                        </tr>-->
-
-<!--                    </table>-->
-
-<!--                    <center>-->
-<!--                        <input type = "submit" value="수정">-->
-<!--                    </center>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </table>-->
     </table>
 </div>
 
