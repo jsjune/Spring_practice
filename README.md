@@ -47,6 +47,8 @@
 
 ---
 
+### - ACID
+
 ### - JDBC
 
 ### - DI(Dependency Injection)/IOC(Inversion of Control)
