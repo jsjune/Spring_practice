@@ -77,3 +77,7 @@
 
 ### - Controller/RestController
 - modelAndView
+
+### - 인덱스와 작동 원리
+
+### - N + 1 문제
