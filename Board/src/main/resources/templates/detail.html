@@ -92,7 +92,7 @@
             console.log(id)
             $.ajax({
                 type: 'GET',
-                url: `/api/detail/${id}`,
+                url: `/api/details/${id}`,
                 data: {},
                 success: function (response) {
                     // for (let i = 0; i < response.length; i++) {
@@ -110,7 +110,7 @@
 
         function addHTML(id,title,username,content,modifiedAt){
             let tempHTML = `
-                               <tr>
+                                <tr>
                                     <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
                                 </tr>
                                 <tr>
@@ -118,12 +118,12 @@
                                         <table class = "table2">
                                             <tr>
                                                 <td>작성자</td>
-                                                <td id="username"><input type = text value="${username}" name = name size=30></td>
+                                                <td id="username">${username}</td>
                                             </tr>
 
                                             <tr>
                                                 <td>제목</td>
-                                                <td id="title"><input value="${title}" type = text name = title size=60></td>
+                                                <td id="title">${title}</td>
                                             </tr>
 
                                             <tr>
@@ -133,13 +133,13 @@
 
                                             <tr>
                                                 <td >작성시간</td>
-                                                <td ><input value="${modifiedAt}" type=text name = pw size=30 maxlength=30></td>
+                                                <td id="modifiedAt">${modifiedAt}</td>
                                             </tr>
 
                                         </table>
 
                                         <center>
-                                            <input type = "submit" value="수정">
+                                            <button onclick="submitEdit()">수정</button>
                                         </center>
                                         <center>
                                             <button onclick="deleteOne()">삭제</button>
@@ -150,12 +150,36 @@
             $('#board_write').append(tempHTML);
         }
 
+        // // 메모를 수정합니다.
+        // function submitEdit() {
+        //     // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+        //     let username = $(`#username`).text().trim();
+        //     let content = $(`#content`).val().trim();
+        //     // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+        //     if (isValidContents(content) == false) {
+        //         return;
+        //     }
+        //     // 3. 전달할 data JSON으로 만듭니다.
+        //     let data = {'username': username, 'content': content};
+        //     // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+        //     $.ajax({
+        //         type:"PUT",
+        //         url:`api/details/${id}`,
+        //         data: JSON.stringify(data),
+        //         contentType: 'application/json',
+        //         success: function(response){
+        //             alert("변경 완료")
+        //             window.location.reload();
+        //         }
+        //     })
+        // }
+
         // 메모를 삭제합니다.
         function deleteOne() {
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
             $.ajax({
                 type:'DELETE',
-                url:`/api/detail/${id}`,
+                url:`/api/boards/${id}`,
                 success: function(){
                     alert('삭제가 완료되었습니다.');
                     window.location.href="/";

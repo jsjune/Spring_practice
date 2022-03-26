@@ -1,8 +1,8 @@
 package com.sparta.board.controller;
 
 import com.sparta.board.domain.Board;
-import com.sparta.board.domain.BoardDto;
-import com.sparta.board.domain.BoardRepository;
+import com.sparta.board.dto.BoardDto;
+import com.sparta.board.repository.BoardRepository;
 import com.sparta.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,13 @@ public class BoardRestController {
         return boardRepository.save(board);
     }
 
-    @GetMapping("/api/boards/detail")
-    public String detailBoard(@RequestParam("id") String id) { // RequestParam은 /detail?id=${id}에서 id의 값을 의미한다
+    @GetMapping("/api/details") // 상세 페이지 이동
+    public String detailBoard() {
         return "/detail.html";
     }
 
     @ResponseBody
-    @GetMapping("/api/detail/{id}") // 게시글 상세 화면
+    @GetMapping("/api/details/{id}") // 게시글 상세 화면
     public Board detailBoard1(@PathVariable Long id) {
         Board board = boardRepository.findById(id).orElseThrow( // 필요한 정보를 찾는다
                 () -> new IllegalArgumentException()
@@ -43,7 +43,16 @@ public class BoardRestController {
         return board;
     }
 
-    @DeleteMapping("/api/detail/{id}")
+//     게시글 수정
+//    @ResponseBody
+//    @PutMapping("/api/details/?id={id}")
+//    public Long updateContents(@PathVariable Long id, @RequestBody BoardDto boardDto) {
+//        boardService.update(id, boardDto);
+//        return id;
+//    }
+
+    @ResponseBody
+    @DeleteMapping("/api/boards/{id}")
     public Long deleteBoard(@PathVariable Long id) {
         boardRepository.deleteById(id);
         return id;

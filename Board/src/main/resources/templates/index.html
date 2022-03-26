@@ -127,7 +127,7 @@
         }
 
         function detail(id) {
-            window.location.href = `/api/boards/detail?id=${id}` // detail.html에 id값을 던져줌
+            window.location.href = `/api/details?id=${id}` // detail.html에 id값을 던져줌
         }
 
         function isValidContents(content) {
@@ -180,8 +180,11 @@
 
 <body>
 <div class="mytitle">
-    <h1>게시판</h1>
+    <span th:text="${username}"></span> 님의 게시판
     <button onclick="open_box()">게시글 작성</button>
+    <form id="my_form" method="post" action="/user/logout">
+        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+    </form>
 </div>
 <div class="mypost" id="post-box">
     <div class="form-floating mb-3">

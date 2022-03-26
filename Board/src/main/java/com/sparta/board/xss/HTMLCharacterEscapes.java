@@ -1,4 +1,4 @@
-package com.sparta.board;
+package com.sparta.board.xss;
 
 import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.io.CharacterEscapes;

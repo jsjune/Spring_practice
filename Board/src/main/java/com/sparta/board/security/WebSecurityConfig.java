@@ -1,7 +1,7 @@
-package com.sparta.springcore.security;
-
+package com.sparta.board.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,8 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-// CSRF protection 을 비활성화
+// 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
         http.csrf().disable();
+//                .ignoringAntMatchers("/user/**");
 
         http.authorizeRequests()
 // image 폴더를 login 없이 허용
@@ -37,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/boards").permitAll()
+                .antMatchers("/api/details").permitAll()
 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 .and()
@@ -54,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 // [로그아웃 기능]
                 .logout()
-// 로그아웃 요청 처리 URL
+// 로그아웃 처리 URL
                 .logoutUrl("/user/logout")
                 .permitAll();
     }

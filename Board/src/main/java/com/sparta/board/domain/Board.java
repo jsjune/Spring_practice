@@ -1,5 +1,6 @@
 package com.sparta.board.domain;
 
+import com.sparta.board.dto.BoardDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
