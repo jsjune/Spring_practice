@@ -2,6 +2,7 @@ package com.sparta.board.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -30,14 +32,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 // 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
         http.csrf().disable();
 //                .ignoringAntMatchers("/user/**");
-
         http.authorizeRequests()
 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
 // css 폴더를 login 없이 허용
                 .antMatchers("/css/**").permitAll()
 // 회원 관리 처리 API 전부를 login 없이 허용
+                .antMatchers("/").permitAll()
                 .antMatchers("/user/**").permitAll()
+//                .antMatchers("/api/boards/detail").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/boards").permitAll()
                 .antMatchers("/api/details").permitAll()
 // 그 외 어떤 요청이든 '인증'

@@ -11,41 +11,53 @@
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
     <script>
-        function onclickAdmin() {
-// Get the checkbox
-            var checkBox = document.getElementById("admin-check");
-// Get the output text
-            var box = document.getElementById("admin-token");
-
-// If the checkbox is checked, display the output text
-            if (checkBox.checked == true){
-                box.style.display = "block";
-            } else {
-                box.style.display = "none";
-            }
-        }
+        // function onclickAdmin() {
+        //     // Get the checkbox
+        //     var checkBox = document.getElementById("admin-check");
+        //     // Get the output text
+        //     var box = document.getElementById("admin-token");
+        //
+        //     // If the checkbox is checked, display the output text
+        //     if (checkBox.checked == true){
+        //         box.style.display = "block";
+        //     } else {
+        //         box.style.display = "none";
+        //     }
+        // }
+        // function validate() {
+        //     var reid = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{3,}");
+        //     var repw = new RegExp(".{4,}");
+        //
+        //     var id = document.getElementById("usernamebox").value;
+        //     var pw = document.getElementById("passwordbox").value;
+        //
+        //     if (!(id.match(reid))) {
+        //         alert("닉네임을 최소 3자이상, 알파벳 대소문자, 숫자로 입력하세요");
+        //     }
+        //     if(!(pw.match(repw))) {
+        //         alert("비밀번호를 최소 4자이상으로 입력하세요")
+        //     }
+        //     return false;
+        // }
     </script>
 </head>
 <body>
 <div id="login-form">
     <div id="login-title">Sign up Select Shop</div>
 
-    <form action="/user/signup" method="post">
+    <form action="/user/signup" method="post" >
         <div class="login-id-label">Username</div>
-        <input type="text" name="username" placeholder="Username" class="login-input-box">
+        <input id="usernamebox" type="text" name="username" placeholder="Username" class="login-input-box" required>
 
         <div class="login-id-label">Password</div>
-        <input type="password" name="password" class="login-input-box">
+        <input id="passwordbox" type="password" name="password" class="login-input-box" required>
 
-        <div class="login-id-label">Password</div>
-        <input type="password2" name="password2" class="login-input-box">
+        <div class="login-id-label">Password2</div>
+        <input type="password" name="password2" class="login-input-box" required>
 
-<!--        <div class="login-id-label">E-mail</div>-->
-<!--        <input type="text" name="email" placeholder="E-mail" class="login-input-box">-->
-
-        <div>
-<!--            <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자-->
-<!--            <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box" style="display:none">-->
+        <div class="input-field" style="margin-top: 100px">
+            <!--/*@thymesVar id="message" type=""*/-->
+            <span th:text="${message}"></span>
         </div>
         <button id="login-id-submit">회원 가입</button>
     </form>

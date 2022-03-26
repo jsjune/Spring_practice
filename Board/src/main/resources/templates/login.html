@@ -10,6 +10,17 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <meta charset="UTF-8">
   <title>로그인 페이지</title>
+  <script th:inline="javascript">
+
+    $(document).ready(function () {
+      // HTML 문서를 로드할 때마다 실행합니다.
+      let loggedIn = [[${loggedIn}]]
+      if(loggedIn) {
+        alert([[${message}]])
+        window.location.replace('/')
+      }
+    })
+  </script>
 </head>
 <body>
 <div id="login-form">
@@ -22,10 +33,10 @@
   </button>
   <form action="/user/login" method="post">
     <div class="login-id-label">아이디</div>
-    <input type="text" name="username" class="login-input-box">
+    <input type="text" name="username" class="login-input-box" required>
 
     <div class="login-id-label">비밀번호</div>
-    <input type="password" name="password" class="login-input-box">
+    <input type="password" name="password" class="login-input-box" required>
 
     <button id="login-id-submit">로그인</button>
   </form>
