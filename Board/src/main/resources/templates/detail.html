@@ -79,6 +79,15 @@
             vertical-align: top;
             border-bottom: 1px solid #ccc;
         }
+        .mypost2 {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: none;
+        }
 
     </style>
     <script>
@@ -87,6 +96,11 @@
         });
             let getLink = window.location.search;
             let id = decodeURI(getLink.split('=')[1]);
+
+        function edit(){
+            $('#board_write').hide();
+            $('#edit-box').show();
+        }
 
         function getBoard() {
             console.log(id)
@@ -110,6 +124,7 @@
 
         function addHTML(id,title,username,content,modifiedAt){
             let tempHTML = `
+                            <table style="padding-top:50px" align=center width=700 border=0 cellpadding=2>
                                 <tr>
                                     <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
                                 </tr>
@@ -139,40 +154,41 @@
                                         </table>
 
                                         <center>
-                                            <button onclick="submitEdit()">수정</button>
-                                        </center>
-                                        <center>
+                                            <button onclick="edit()">수정</button>
                                             <button onclick="deleteOne()">삭제</button>
                                         </center>
                                     </td>
                                 </tr>
+                             </table>
                             `;
             $('#board_write').append(tempHTML);
         }
 
-        // // 메모를 수정합니다.
-        // function submitEdit() {
-        //     // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
-        //     let username = $(`#username`).text().trim();
-        //     let content = $(`#content`).val().trim();
-        //     // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
-        //     if (isValidContents(content) == false) {
-        //         return;
-        //     }
-        //     // 3. 전달할 data JSON으로 만듭니다.
-        //     let data = {'username': username, 'content': content};
-        //     // 4. PUT /api/memos/{id} 에 data를 전달합니다.
-        //     $.ajax({
-        //         type:"PUT",
-        //         url:`api/details/${id}`,
-        //         data: JSON.stringify(data),
-        //         contentType: 'application/json',
-        //         success: function(response){
-        //             alert("변경 완료")
-        //             window.location.reload();
-        //         }
-        //     })
-        // }
+        // 메모를 수정합니다.
+        function submitEdit() {
+            // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+            let title = $('#edit_title').val();
+            let content = $('#edit_content').val();
+            // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+            // if (isValidContents(content) == false) {
+            //     return;
+            // }
+            // 3. 전달할 data JSON으로 만듭니다.
+            let data = {'title':title,'content': content};
+            console.log(data)
+            // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+            $.ajax({
+                type:"PUT",
+                url:`/api/details/${id}`,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response){
+                    console.log(response)
+                    alert("변경 완료")
+                    window.location.reload();
+                }
+            })
+        }
 
         // 메모를 삭제합니다.
         function deleteOne() {
@@ -199,6 +215,7 @@
             return true;
         }
 
+
     </script>
 </head>
 
@@ -207,11 +224,63 @@
     <h1>게시판</h1>
 </a>
 <div class="detail" id="board_write">
-    <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
+<!--    <table style="padding-top:50px" align=center width=700 border=0 cellpadding=2>-->
+<!--        <tr>-->
+<!--            <td height=20 align=center bgcolor=#ccc><font color=white> 글쓰기</font></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td bgcolor=white>-->
+<!--                <table class="table2">-->
+<!--                    <tr>-->
+<!--                        <td>작성자</td>-->
+<!--                        <td id="username">작성자</td>-->
+<!--                    </tr>-->
 
-    </table>
+<!--                    <tr>-->
+<!--                        <td>제목</td>-->
+<!--                        <td id="title">제목</td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td>내용</td>-->
+<!--                        <td><textarea id="content" name=content cols=85 rows=15>내용</textarea></td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td>작성시간</td>-->
+<!--                        <td id="modifiedAt">작성시간</td>-->
+<!--                    </tr>-->
+
+<!--                </table>-->
+
+<!--                <center>-->
+<!--                    <button onclick="edit()">수정</button>-->
+<!--                    <button onclick="deleteOne()">삭제</button>-->
+<!--                </center>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
 </div>
 
+<div class="mypost2" id="edit-box" style="display: none;">
+    <div class="form-floating mb-3">
+        <input id="edit_title" type="email" class="form-control" placeholder="name@example.com">
+        <label for="floatingInput">제목</label>
+    </div>
+    <!--    <div class="form-floating mb-3">-->
+    <!--        <input id="username" type="email" class="form-control" placeholder="name@example.com">-->
+    <!--        <label for="floatingInput">작성자명</label>-->
+    <!--    </div>-->
+
+    <div class="form-floating">
+        <textarea id="edit_content" class="form-control" placeholder="Leave a comment here"></textarea>
+        <label for="floatingTextarea2">내용</label>
+    </div>
+    <div class="mybtns">
+        <button onclick="submitEdit()" type="button" class="btn btn-dark">작성</button>
+<!--        <button onclick="close_box()" type="button" class="btn btn-outline-dark">취소</button>-->
+    </div>
+</div>
 
 </body>
 </html>

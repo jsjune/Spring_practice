@@ -30,7 +30,7 @@ public class SignUpValidator {
         } else if(!requestDto.getPassword().equals(requestDto.getPassword2())) {
             return "비밀번호가 일치하지 않습니다";
         } else if(requestDto.getPassword().contains(requestDto.getUsername())) {
-            return "비밀번호는 닉네임을 포함할 수 없습니다.";
+            return "비밀번호가 닉네임과 일치합니다";
         } else
             return "회원가입 성공";
     }

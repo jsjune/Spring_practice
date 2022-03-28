@@ -145,14 +145,14 @@
         function posting() {
             // 1. 작성한 메모를 불러옵니다.
             let content = $('#content').val();
-            let username = $('#username').val();
+            // let username = $('#username').val();
             let title = $('#title').val();
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
             if (isValidContents(content) == false) {
                 return;
             }
             // 4. 전달할 data JSON으로 만듭니다.
-            let data = {'username': username, 'content': content, 'title':title};
+            let data = {'content': content, 'title':title};
             // 5. POST /api/articles 에 data를 전달합니다.
             $.ajax({
                 type: "POST",
@@ -160,8 +160,13 @@
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
-                    alert('등록 완료!');
-                    window.location.reload();
+                    if(!response){
+                        alert('로그인하세요~');
+                    }else{
+                       alert('등록 완료!');
+                    }
+                    console.log(response)
+                    // window.location.reload();
                 }
             });
         }
@@ -182,20 +187,21 @@
 <div class="mytitle">
     <span th:text="${username}">님의</span>게시판
     <button onclick="open_box()">게시글 작성</button>
-    <a href="/user/login">로그인</a>
-    <form id="my_form" method="post" action="/user/logout">
-        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
-    </form>
+    <a th:if="${#strings.isEmpty(username)}" href="/user/login">로그인</a>
+    <a th:if="${not #strings.isEmpty(username)}" href="/user/logout">로그아웃</a>
+<!--    <form id="my_form" method="post" action="/user/logout">-->
+<!--        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>-->
+<!--    </form>-->
 </div>
 <div class="mypost" id="post-box">
     <div class="form-floating mb-3">
         <input id="title" type="email" class="form-control" placeholder="name@example.com">
         <label for="floatingInput">제목</label>
     </div>
-    <div class="form-floating mb-3">
-        <input id="username" type="email" class="form-control" placeholder="name@example.com">
-        <label for="floatingInput">작성자명</label>
-    </div>
+<!--    <div class="form-floating mb-3">-->
+<!--        <input id="username" type="email" class="form-control" placeholder="name@example.com">-->
+<!--        <label for="floatingInput">작성자명</label>-->
+<!--    </div>-->
 
     <div class="form-floating">
         <textarea id="content" class="form-control" placeholder="Leave a comment here"></textarea>

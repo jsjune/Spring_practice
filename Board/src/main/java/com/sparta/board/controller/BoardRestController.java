@@ -3,8 +3,10 @@ package com.sparta.board.controller;
 import com.sparta.board.domain.Board;
 import com.sparta.board.dto.BoardDto;
 import com.sparta.board.repository.BoardRepository;
+import com.sparta.board.security.UserDetailsImpl;
 import com.sparta.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,11 @@ public class BoardRestController {
 
     @ResponseBody
     @PostMapping("/api/boards") // 게시글 작성
-    public Board createBoard(@RequestBody BoardDto boardDto) {
+    public Board createBoard(@RequestBody BoardDto boardDto,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        boardDto.setUsername(userDetails.getUsername());
         Board board = new Board(boardDto);
-        return boardRepository.save(board);
+        boardRepository.save(board);
+        return board;
     }
 
     @GetMapping("/api/details") // 상세 페이지 이동
@@ -43,13 +47,13 @@ public class BoardRestController {
         return board;
     }
 
-//     게시글 수정
-//    @ResponseBody
-//    @PutMapping("/api/details/?id={id}")
-//    public Long updateContents(@PathVariable Long id, @RequestBody BoardDto boardDto) {
-//        boardService.update(id, boardDto);
-//        return id;
-//    }
+//    게시글 수정
+    @ResponseBody
+    @PutMapping("/api/details/{id}")
+    public Long updateContents(@PathVariable Long id, @RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        boardDto.setUsername(userDetails.getUsername());
+        return boardService.update(id, boardDto);
+    }
 
     @ResponseBody
     @DeleteMapping("/api/boards/{id}")

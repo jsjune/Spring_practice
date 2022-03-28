@@ -3,10 +3,9 @@ package com.sparta.board.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.board.dto.SignupRequestDto;
 import com.sparta.board.security.UserDetailsImpl;
+import com.sparta.board.service.KakaoUserService;
 import com.sparta.board.service.UserService;
 import com.sparta.board.validator.SignUpValidator;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final SignUpValidator signUpValidator;
+    private final KakaoUserService kakaoUserService;
+
+    public UserController(UserService userService, SignUpValidator signUpValidator, KakaoUserService kakaoUserService) {
+        this.userService = userService;
+        this.signUpValidator = signUpValidator;
+        this.kakaoUserService = kakaoUserService;
+    }
 
     // 회원 로그인 페이지
     @GetMapping("/user/login")
@@ -70,7 +75,7 @@ public class UserController {
     @GetMapping("/user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        userService.kakaoLogin(code);
+        kakaoUserService.kakaoLogin(code);
 
         return "redirect:/";
     }
