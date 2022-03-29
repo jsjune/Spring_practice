@@ -36,8 +36,9 @@ public class UserController {
         if(userDetails != null) {
             model.addAttribute("loggedIn", true);
             model.addAttribute("message", "이미 로그인 하셨습니다.");
-        } else
+        } else {
             model.addAttribute("loggedIn", false);
+        }
         return "login";
     }
 
@@ -46,7 +47,6 @@ public class UserController {
         return "signup";
     }
 
-    // 회원 가입 페이지
     @PostMapping("/user/signup")
     public String signup(@Valid SignupRequestDto requestDto, Errors errors, Model model) {
         String message = signUpValidator.getValidMessage(requestDto, errors);

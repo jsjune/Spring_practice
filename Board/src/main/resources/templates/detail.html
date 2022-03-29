@@ -203,6 +203,45 @@
             })
         }
 
+        // 댓글
+        function posting() {
+            let content = $('#content1').val();
+            let data = {'content': content};
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: `/api/details/${id}/comments`,
+                contentType: "application/json", // JSON 형식으로 전달함을 알리기
+                data: JSON.stringify(data),
+                success: function (response) {
+                        alert('등록 완료!');
+                    let id = response.id;
+                    let username = response.writer;
+                    let content = response.content;
+                    let modifiedAt = response.modifiedAt;
+                    // console.log(id,username,content,modifiedAt)
+                    // addH(id, username, content, modifiedAt);
+                    let tempHTML = `<tr style=" cursor: pointer;">
+<!--                                        <th scope="row">${id}</th>-->
+                                        <td id="$name" >${username}</td>
+                                        <td id="$content" >${content}</td>
+                                        <td>${modifiedAt}</td>
+                                    </tr>`;
+                    $('#list').append(tempHTML);
+                }
+            });
+        }
+
+        // function addH(id,username,content,modifiedAt){
+        //     let tempHTML = `<tr style=" cursor: pointer;">
+        //                         <th scope="row">${id}</th>
+        //                         <td id="${id}-name" >${username}</td>
+        //                         <td id="${id}-content" >${content}</td>
+        //                         <td>${modifiedAt}</td>
+        //                     </tr>`;
+        //     $('#list').append(tempHTML);
+        // }
+
         function isValidContents(content) {
             if (content == '') {
                 alert('내용을 입력해주세요');
@@ -282,5 +321,18 @@
     </div>
 </div>
 
+<div>
+<!--    <form method="post" action="/reply/write">-->
+            <textarea rows="5" cols="50" id="content1"></textarea>
+    <p>
+            <button onclick="posting()" type="submit">댓글 작성</button>
+    </p>
+<!--    </form>-->
+</div>
+<table class="table" >
+<tbody id="list">
+
+</tbody>
+</table>
 </body>
 </html>

@@ -160,13 +160,9 @@
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
-                    if(!response){
-                        alert('로그인하세요~');
-                    }else{
-                       alert('등록 완료!');
-                    }
+                    alert('등록 완료!');
                     console.log(response)
-                    // window.location.reload();
+                    window.location.reload();
                 }
             });
         }
@@ -188,6 +184,7 @@
     <span th:text="${username}">님의</span>게시판
     <button onclick="open_box()">게시글 작성</button>
     <a th:if="${#strings.isEmpty(username)}" href="/user/login">로그인</a>
+    <a th:if="${#strings.isEmpty(username)}" href="/user/signup">회원가입</a>
     <a th:if="${not #strings.isEmpty(username)}" href="/user/logout">로그아웃</a>
 <!--    <form id="my_form" method="post" action="/user/logout">-->
 <!--        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>-->
