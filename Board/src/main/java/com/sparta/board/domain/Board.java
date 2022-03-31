@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -23,6 +24,9 @@ public class Board extends Timestamped {
 
     @Column(nullable = false)
     private String username;
+
+    @OneToMany(fetch=FetchType.EAGER, mappedBy = "board")
+    private List<Comment> comments;
 
     public Board(BoardDto boardDto) {
         this.title = boardDto.getTitle();

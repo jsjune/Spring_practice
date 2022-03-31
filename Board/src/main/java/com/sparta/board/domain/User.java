@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -28,9 +29,11 @@ public class User {
     @Column(nullable = true)
     private Long kakaoId;
 
-
-//    @Column(nullable = false, unique = true)
-//    private String email;
+//    @OneToMany
+//    private List<Board> boards;
+//
+//    @OneToMany
+//    private List<Comment> comments;
 
 //    @Column(nullable = false)
 //    @Enumerated(value = EnumType.STRING)

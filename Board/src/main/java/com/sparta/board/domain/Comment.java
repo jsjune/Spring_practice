@@ -9,24 +9,27 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Comment extends Timestamped{
+public class Comment extends Timestamped {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    //    @ManyToOne
+//    @JoinColumn(name="BOARD_ID",nullable = false)
+    @Column(nullable = false)
+    private Long board;
 
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String writer;
 
     @Column(nullable = false)
-    private Long BoardId;
+    private String writer;
 
     public Comment(CommentRequestDto requestDto) {
         this.content = requestDto.getContent();
         this.writer = requestDto.getWriter();
-        this.BoardId = requestDto.getBoardId();
+        this.board = requestDto.getBoardId();
     }
 }

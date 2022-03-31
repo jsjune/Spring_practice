@@ -92,10 +92,12 @@
     </style>
     <script>
         $(document).ready(function () {
-            getBoard(id);
+            getBoard();
+            listcomment();
         });
-            let getLink = window.location.search;
-            let id = decodeURI(getLink.split('=')[1]);
+            // let getLink = window.location.search;
+            // let id = decodeURI(getLink.split('=')[1]);
+            let id = location.href.split("id=")[1];
 
         function edit(){
             $('#board_write').hide();
@@ -103,10 +105,10 @@
         }
 
         function getBoard() {
-            console.log(id)
+            // console.log(id)
             $.ajax({
                 type: 'GET',
-                url: `/api/details/${id}`,
+                url: `/api/detials/${id}`,
                 data: {},
                 success: function (response) {
                     // for (let i = 0; i < response.length; i++) {
@@ -117,6 +119,7 @@
                         let content = response['content'];
                         let modifiedAt = response['modifiedAt'];
                         addHTML(id,title, username, content, modifiedAt)
+                       // console.log(id,title, username, content, modifiedAt)
 
                 }
             })
@@ -124,12 +127,7 @@
 
         function addHTML(id,title,username,content,modifiedAt){
             let tempHTML = `
-                            <table style="padding-top:50px" align=center width=700 border=0 cellpadding=2>
-                                <tr>
-                                    <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
-                                </tr>
-                                <tr>
-                                    <td bgcolor=white>
+
                                         <table class = "table2">
                                             <tr>
                                                 <td>작성자</td>
@@ -153,13 +151,7 @@
 
                                         </table>
 
-                                        <center>
-                                            <button onclick="edit()">수정</button>
-                                            <button onclick="deleteOne()">삭제</button>
-                                        </center>
-                                    </td>
-                                </tr>
-                             </table>
+
                             `;
             $('#board_write').append(tempHTML);
         }
@@ -207,7 +199,7 @@
         function posting() {
             let content = $('#content1').val();
             let data = {'content': content};
-            console.log(data);
+            // console.log(data);
             $.ajax({
                 type: "POST",
                 url: `/api/details/${id}/comments`,
@@ -215,32 +207,21 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                         alert('등록 완료!');
-                    let id = response.id;
-                    let username = response.writer;
-                    let content = response.content;
-                    let modifiedAt = response.modifiedAt;
-                    // console.log(id,username,content,modifiedAt)
-                    // addH(id, username, content, modifiedAt);
-                    let tempHTML = `<tr style=" cursor: pointer;">
-<!--                                        <th scope="row">${id}</th>-->
-                                        <td id="$name" >${username}</td>
-                                        <td id="$content" >${content}</td>
-                                        <td>${modifiedAt}</td>
-                                    </tr>`;
-                    $('#list').append(tempHTML);
+                    window.location.reload();
                 }
             });
         }
 
-        // function addH(id,username,content,modifiedAt){
-        //     let tempHTML = `<tr style=" cursor: pointer;">
-        //                         <th scope="row">${id}</th>
-        //                         <td id="${id}-name" >${username}</td>
-        //                         <td id="${id}-content" >${content}</td>
-        //                         <td>${modifiedAt}</td>
-        //                     </tr>`;
-        //     $('#list').append(tempHTML);
-        // }
+        function listcomment(){
+                $.ajax({
+                    type:'GET',
+                    url:'/api/details/{id}/comments',
+                    success: function(response){
+                        console.log(response);
+
+                    }
+                });
+            }
 
         function isValidContents(content) {
             if (content == '') {
@@ -263,6 +244,21 @@
     <h1>게시판</h1>
 </a>
 <div class="detail" id="board_write">
+    <table style="padding-top:50px" align=center width=700 border=0 cellpadding=2>
+        <tr>
+            <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기</font></td>
+        </tr>
+        <tr>
+            <td bgcolor=white>
+                <center>
+                    <div sec:authorize = "isAuthenticated()">
+                        <button onclick="edit()">수정</button>
+                        <button onclick="deleteOne()">삭제</button>
+                    </div>
+                </center>
+            </td>
+        </tr>
+    </table>
 <!--    <table style="padding-top:50px" align=center width=700 border=0 cellpadding=2>-->
 <!--        <tr>-->
 <!--            <td height=20 align=center bgcolor=#ccc><font color=white> 글쓰기</font></td>-->
@@ -331,7 +327,12 @@
 </div>
 <table class="table" >
 <tbody id="list">
-
+<tr style=" cursor: pointer;">
+    <th scope="row"></th>
+    <td id="username" ></td>
+    <td id="content" ></td>
+    <td id="modifiedAt"></td>
+</tr>
 </tbody>
 </table>
 </body>

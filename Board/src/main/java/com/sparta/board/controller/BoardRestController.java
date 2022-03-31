@@ -33,15 +33,15 @@ public class BoardRestController {
         return board;
     }
 
-    @GetMapping("/api/details") // 상세 페이지 이동
+    @GetMapping("/api/detials") // 상세 페이지 이동
     public String detailBoard() {
         return "/detail.html";
     }
 
     @ResponseBody
-    @GetMapping("/api/details/{id}") // 게시글 상세 화면
+    @GetMapping("/api/detials/{id}") // 게시글 상세 화면
     public Board detailBoard1(@PathVariable Long id) {
-        Board board = boardRepository.findById(id).orElseThrow( // 필요한 정보를 찾는다
+        Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException()
         );
         return board;
@@ -49,7 +49,7 @@ public class BoardRestController {
 
 //    게시글 수정
     @ResponseBody
-    @PutMapping("/api/details/{id}")
+    @PutMapping("/api/detials/{id}")
     public Long updateContents(@PathVariable Long id, @RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         boardDto.setUsername(userDetails.getUsername());
         return boardService.update(id, boardDto);
