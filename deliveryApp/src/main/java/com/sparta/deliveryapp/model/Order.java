@@ -1,4 +1,4 @@
-package com.sparta.deliveryapp.model;
-
-public class Order {
-}
+//package com.sparta.deliveryapp.model;
+//
+//public class Order {
+//}
