@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @NoArgsConstructor
 @Getter
 @Entity
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

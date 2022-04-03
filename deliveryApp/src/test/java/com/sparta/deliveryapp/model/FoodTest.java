@@ -143,7 +143,7 @@ class FoodIntegrationTest {
                     "/restaurant/" + restaurantId + "/food/register",
                     request,
                     Object.class);
-
+            System.out.println(response.getBody());
             // then
             assertEquals(HttpStatus.OK, response.getStatusCode());
             assertNull(response.getBody());
@@ -158,10 +158,14 @@ class FoodIntegrationTest {
             ResponseEntity<FoodDto[]> response = restTemplate.getForEntity(
                     "/restaurant/" + restaurantId + "/foods",
                     FoodDto[].class);
+//            System.out.println(Arrays.toString(response.getBody()));
 
             // then
             assertEquals(HttpStatus.OK, response.getStatusCode());
             FoodDto[] foodsResponse = response.getBody();
+            for (int i = 0; i < foodsResponse.length; i++) {
+                System.out.println(foodsResponse[i].getName());
+            }
             assertNotNull(foodsResponse);
             assertEquals(4, foodsResponse.length);
             // 음식 1 확인
@@ -169,6 +173,7 @@ class FoodIntegrationTest {
                     .filter(food -> food1.getName().equals(food.getName()))
                     .findAny()
                     .orElse(null);
+//            System.out.println(food1Response);
             assertNotNull(food1Response);
             assertNotNull(food1Response.getId());
             assertEquals(food1.getName(), food1Response.getName());

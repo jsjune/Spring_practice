@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 //    @ManyToOne
@@ -23,20 +23,20 @@ public class Food {
     private Long restaurantId;
 
     @Column(nullable = false)
-    private String foodName;
+    private String name;
 
     @Column(nullable = false)
-    private int foodPrice;
+    private int price;
 
 //    public Food(FoodDto foodDto, Restaurant restaurant) {
-//        this.foodName=foodDto.getName();
-//        this.foodPrice=foodDto.getPrice();
+//        this.Name=foodDto.getName();
+//        this.Price=foodDto.getPrice();
 //        this.restaurant=restaurant;
 //    }
 
     public Food(FoodDto foodDto, Long restaurantId) {
-        this.foodName=foodDto.getName();
-        this.foodPrice=foodDto.getPrice();
+        this.name=foodDto.getName();
+        this.price=foodDto.getPrice();
         this.restaurantId=restaurantId;
     }
 }

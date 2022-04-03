@@ -28,8 +28,6 @@ public class RestaurantService {
     private static final int MAX_DELIVERYFEE = 10000;
     private static final int MIN_FOODPRICE = 100; // 100원 단위로만 입력 가능
     private static final int MAX_FOODPRICE = 1000000;
-    private static final int MIN_QUANTITY = 1;
-    private static final int MAX_QUANTITY = 100;
     // "주문 음식 가격들의 총 합"이 주문 음식점의 "최소주문 가격"을 넘지 않을 시 에러 발생
 
     private static void restaurantExceptions(RestaurantDto restaurantDto) {
@@ -62,10 +60,10 @@ public class RestaurantService {
 
     // 음식 예외
     private static void foodExceptions(Food food) {
-        if (food.getFoodPrice() < MIN_FOODPRICE || food.getFoodPrice() > MAX_FOODPRICE) {
+        if (food.getPrice() < MIN_FOODPRICE || food.getPrice() > MAX_FOODPRICE) {
             throw new IllegalArgumentException("음식 가격 예외");
         }
-        if (food.getFoodPrice() % 100 != 0) {
+        if (food.getPrice() % 100 != 0) {
             throw new IllegalArgumentException("100원 단위로만 입력가능");
         }
     }
@@ -73,9 +71,9 @@ public class RestaurantService {
     // 음식 등록
     @Transactional
     public void setFood(Long restaurantId,List<FoodDto> foodDto){
-//        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
-//                ()->new IllegalArgumentException("아이디X")
-//        );
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
+                ()->new IllegalArgumentException("아이디X")
+        );
 //        HashSet<String> foodset = new HashSet<>();
 //        for (FoodDto newfood : foodDto) {
 //            foodset.add(newfood.getName());
@@ -84,12 +82,12 @@ public class RestaurantService {
 //            throw new IllegalArgumentException("입력된 음식명에 중복 에러");
 //        }
         for (FoodDto newfood : foodDto) {
-            List<Food> result = foodRepository.findByRestaurantIdAndFoodName(restaurantId, newfood.getName()) ;
-            if (result.size()>0) {
-                throw new IllegalArgumentException("음식 중복 에러");
+            List<Food> result = foodRepository.findByRestaurantIdAndName(restaurantId, newfood.getName()) ;
+            if(result.size()>0){
+                throw new IllegalArgumentException("중복");
             }
+
             Food food = new Food(newfood,restaurantId);
-            System.out.println(newfood.toString());
             foodExceptions(food);
             foodRepository.save(food);
         }
@@ -100,5 +98,10 @@ public class RestaurantService {
         return foodRepository.findAllByRestaurantId(restaurantId);
     }
 
-}
+    // 주문
 
+
+    // 주문 조회
+
+
+}
