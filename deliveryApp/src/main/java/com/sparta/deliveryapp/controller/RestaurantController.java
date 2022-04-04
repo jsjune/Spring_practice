@@ -28,6 +28,11 @@ public class RestaurantController {
         return restaurantService.showFood();
     }
 
+//    @GetMapping("/restaurants")
+//    public List<Restaurant> showRestaurant(@RequestParam("xParam") int parameter1,@RequestParam("yParam") int parameter2) {
+//        return restaurantService.showFood();
+//    }
+
     // 음식 등록
     @PostMapping("/restaurant/{restaurantId}/food/register") // 식당id
     public void foodRegister(@PathVariable Long restaurantId, @RequestBody List<FoodDto> foodDto) {

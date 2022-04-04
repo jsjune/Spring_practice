@@ -89,7 +89,29 @@ public class OrderService {
     }
 
     // 주문 조회
-    public List<OrderList> showOrder() {
-        return orderRepository.findAll();
+    public List<OrderDto> showOrder() {
+        List<OrderList> list = orderRepository.findAll(); // db값
+        List<OrderDto> order = new ArrayList<>(); // 빈값, return 해야되므로 값을 채워줘야됨
+
+        for (OrderList orderList : list) {
+            String restaurantName = orderList.getRestaurantName();
+            int deliveryFee = orderList.getDeliveryFee();
+            int totalprice = orderList.getTotalPrice();
+
+            // OrderDto에 있는 FoodOrderDto의 값 채워주기
+            ArrayList<FoodOrderDto> foodOrderDtoList = new ArrayList<>();
+
+            for (FoodOrder foodOrder : orderList.getFoodOrder()) {
+                String name = foodOrder.getName();
+                int quantity = foodOrder.getQuantity();
+                int price = foodOrder.getPrice();
+
+                FoodOrderDto foodOrderDto = new FoodOrderDto(name, quantity, price);
+                foodOrderDtoList.add(foodOrderDto);
+            }
+            OrderDto orderDto = new OrderDto(restaurantName, deliveryFee, totalprice, foodOrderDtoList);
+            order.add(orderDto);
+        }
+       return order;
     }
 }

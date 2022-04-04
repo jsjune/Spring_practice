@@ -15,4 +15,10 @@ public class FoodOrderDto {
         this.price = foodOrder.getPrice();
         this.quantity = quantity;
     }
+
+    public FoodOrderDto(String name, int quantity, int price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }

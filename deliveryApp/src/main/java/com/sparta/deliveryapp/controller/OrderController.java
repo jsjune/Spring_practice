@@ -28,7 +28,7 @@ public class OrderController {
 
     // 주문 조회
     @GetMapping("/orders")
-    public List<OrderList> showOrder() {
+    public List<OrderDto> showOrder() {
         return orderService.showOrder();
     }
 }
