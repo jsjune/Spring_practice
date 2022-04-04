@@ -12,15 +12,20 @@ import javax.persistence.*;
 public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "restaurant_id") // 단방향
-//    private Restaurant restaurant;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id" ) // 단방향
+    private Restaurant restaurant;
 
+//    @ManyToOne
+//    @JoinColumn(name = "restaurant_name")
     @Column(nullable = false)
-    private Long restaurantId;
+    private String restaurantName;
+
+//    @Column(nullable = false)
+//    private Long restaurantId;
 
     @Column(nullable = false)
     private String name;
@@ -28,15 +33,18 @@ public class Food {
     @Column(nullable = false)
     private int price;
 
-//    public Food(FoodDto foodDto, Restaurant restaurant) {
-//        this.Name=foodDto.getName();
-//        this.Price=foodDto.getPrice();
-//        this.restaurant=restaurant;
-//    }
-
-    public Food(FoodDto foodDto, Long restaurantId) {
+    public Food(FoodDto foodDto, Restaurant restaurant) {
         this.name=foodDto.getName();
         this.price=foodDto.getPrice();
-        this.restaurantId=restaurantId;
+        this.restaurant=restaurant;
+        this.restaurantName=restaurant.getName();
     }
+
+
+
+//    public Food(FoodDto foodDto, Long restaurantId) {
+//        this.name=foodDto.getName();
+//        this.price=foodDto.getPrice();
+//        this.restaurantId=restaurantId;
+//    }
 }

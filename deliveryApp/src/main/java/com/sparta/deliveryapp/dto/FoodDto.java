@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class FoodDto {
-//    private Long restaurantId;
+    private Long id;
     private String name;
     private int price;
 }

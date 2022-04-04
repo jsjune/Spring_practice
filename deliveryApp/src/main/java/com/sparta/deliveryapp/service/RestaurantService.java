@@ -9,6 +9,7 @@ import com.sparta.deliveryapp.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -74,6 +75,11 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
                 ()->new IllegalArgumentException("아이디X")
         );
+
+//        if (foodDto.stream().map(FoodDto::getName).allMatch(new HashSet<>()::add)) {
+//            throw new IllegalArgumentException("중복");
+//        }
+
 //        HashSet<String> foodset = new HashSet<>();
 //        for (FoodDto newfood : foodDto) {
 //            foodset.add(newfood.getName());
@@ -81,13 +87,14 @@ public class RestaurantService {
 //        if (foodset.size() != foodDto.size()) {
 //            throw new IllegalArgumentException("입력된 음식명에 중복 에러");
 //        }
+
         for (FoodDto newfood : foodDto) {
             List<Food> result = foodRepository.findByRestaurantIdAndName(restaurantId, newfood.getName()) ;
             if(result.size()>0){
                 throw new IllegalArgumentException("중복");
             }
 
-            Food food = new Food(newfood,restaurantId);
+            Food food = new Food(newfood,restaurant);
             foodExceptions(food);
             foodRepository.save(food);
         }
@@ -97,11 +104,5 @@ public class RestaurantService {
     public List<Food> show(Long restaurantId){
         return foodRepository.findAllByRestaurantId(restaurantId);
     }
-
-    // 주문
-
-
-    // 주문 조회
-
 
 }
