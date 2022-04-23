@@ -1,11 +1,8 @@
 package com.sparta.deliveryapp.service;
 
-import com.sparta.deliveryapp.dto.FoodOrderDto;
-import com.sparta.deliveryapp.dto.FoodOrderRequestDto;
-import com.sparta.deliveryapp.dto.OrderDto;
-import com.sparta.deliveryapp.dto.OrderRequestDto;
+import com.sparta.deliveryapp.dto.*;
 import com.sparta.deliveryapp.model.Food;
-import com.sparta.deliveryapp.model.FoodOrder;
+import com.sparta.deliveryapp.model.Foods;
 import com.sparta.deliveryapp.model.OrderList;
 import com.sparta.deliveryapp.model.Restaurant;
 import com.sparta.deliveryapp.repository.FoodOrderRepository;
@@ -13,8 +10,8 @@ import com.sparta.deliveryapp.repository.FoodRepository;
 import com.sparta.deliveryapp.repository.OrderRepository;
 import com.sparta.deliveryapp.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +46,7 @@ public class OrderService {
     }
 
     // 주문
-//    @Transactional
+    @Transactional
     public OrderDto setOrder(OrderRequestDto orderRequestDto) {
         Restaurant restaurant = restaurantRepository.findById(orderRequestDto.getRestaurantId()).orElseThrow(
                 () -> new IllegalArgumentException("아이디X")
@@ -59,7 +56,7 @@ public class OrderService {
         int totalPrice = deliveryFee;
 
         ArrayList<FoodOrderDto> foodOrderDto = new ArrayList<>();
-        ArrayList<FoodOrder> foodOrder = new ArrayList<>();
+        ArrayList<Foods> foods = new ArrayList<>();
 
         orderException(orderRequestDto);
 
@@ -68,12 +65,12 @@ public class OrderService {
                     ()->new IllegalArgumentException("아이디X")
             );
             int quantity = foodOrderRequestDto.getQuantity();
-            FoodOrder order = new FoodOrder(food,quantity);
+            Foods order = new Foods(food,quantity);
 
             FoodOrderDto foodOrderDto1 = new FoodOrderDto(order,quantity);
             foodOrderDto.add(foodOrderDto1);
 
-            foodOrder.add(order);
+            foods.add(order);
             foodOrderRepository.save(order);
 
             totalPrice+=order.getPrice();
@@ -82,36 +79,37 @@ public class OrderService {
         orderPriceException(totalPrice,deliveryFee,restaurant.getMinOrderPrice());
 
         OrderDto orderDto = new OrderDto(restaurantName,deliveryFee,totalPrice,foodOrderDto);
-        OrderList oderList = new OrderList(restaurantName,deliveryFee,totalPrice,foodOrder);
+        OrderList oderList = new OrderList(restaurantName,deliveryFee,totalPrice, foods);
 //        System.out.println(orderDto.getFoods().size());
         orderRepository.save(oderList);
+        System.out.println(orderDto.getRestaurantName());
         return orderDto;
     }
 
     // 주문 조회
-    public List<OrderDto> showOrder() {
-        List<OrderList> list = orderRepository.findAll(); // db값
-        List<OrderDto> order = new ArrayList<>(); // 빈값, return 해야되므로 값을 채워줘야됨
+//    public List<OrderList> showOrder(){
+//        return orderRepository.findAll();
+//    }
+    public List<OrderResponseDto> showOrder(){
+        List<OrderList> orderLists = orderRepository.findAll();
+        List<OrderResponseDto> orderResponseDtos = new ArrayList<>();
+        List<FoodResponseDto> foodResponseDtos = new ArrayList<>();
 
-        for (OrderList orderList : list) {
-            String restaurantName = orderList.getRestaurantName();
-            int deliveryFee = orderList.getDeliveryFee();
-            int totalprice = orderList.getTotalPrice();
+        String restaurantName = orderLists.get(0).getRestaurantName();
+        int deliveryFee = orderLists.get(0).getDeliveryFee();
+        int totalPrice = orderLists.get(0).getTotalPrice();
 
-            // OrderDto에 있는 FoodOrderDto의 값 채워주기
-            ArrayList<FoodOrderDto> foodOrderDtoList = new ArrayList<>();
+        for (int i = 0; i < orderLists.get(0).getFoods().size(); i++) {
+            String name = orderLists.get(0).getFoods().get(i).getName();
+            int price = orderLists.get(0).getFoods().get(i).getPrice();
+            int quantity = orderLists.get(0).getFoods().get(i).getQuantity();
 
-            for (FoodOrder foodOrder : orderList.getFoodOrder()) {
-                String name = foodOrder.getName();
-                int quantity = foodOrder.getQuantity();
-                int price = foodOrder.getPrice();
+            FoodResponseDto foodResponseDto = new FoodResponseDto(name,price,quantity);
+            foodResponseDtos.add(foodResponseDto);
 
-                FoodOrderDto foodOrderDto = new FoodOrderDto(name, quantity, price);
-                foodOrderDtoList.add(foodOrderDto);
-            }
-            OrderDto orderDto = new OrderDto(restaurantName, deliveryFee, totalprice, foodOrderDtoList);
-            order.add(orderDto);
         }
-       return order;
+        OrderResponseDto orderResponseDto = new OrderResponseDto(restaurantName,foodResponseDtos,deliveryFee,totalPrice);
+        orderResponseDtos.add(orderResponseDto);
+        return orderResponseDtos;
     }
 }

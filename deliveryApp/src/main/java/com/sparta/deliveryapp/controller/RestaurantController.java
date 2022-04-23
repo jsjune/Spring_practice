@@ -22,14 +22,21 @@ public class RestaurantController {
         return restaurantService.setRestaurant(restaurantDto);
     }
 
+    // 음식점 동록시 "음식점 주소"를 추가로 입력 받음
+//    @PostMapping("/restaurant/register")
+//    public Restaurant restaurantRegister(@RequestBody RestaurantDto restaurantDto) {
+//        return restaurantService.setRestaurant(restaurantDto);
+//    }
+
     // 음식점 조회
     @GetMapping("/restaurants")
     public List<Restaurant> showRestaurant() {
         return restaurantService.showFood();
     }
 
+    // 음식점 조회시 "배달받을 주소"를 추가로 입력 받음
 //    @GetMapping("/restaurants")
-//    public List<Restaurant> showRestaurant(@RequestParam("xParam") int parameter1,@RequestParam("yParam") int parameter2) {
+//    public List<Restaurant> showRestaurant(@RequestParam("paramX") int parameter1,@RequestParam("paramY") int parameter2) {
 //        return restaurantService.showFood();
 //    }
 

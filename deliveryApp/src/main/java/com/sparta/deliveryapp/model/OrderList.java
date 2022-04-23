@@ -1,6 +1,5 @@
 package com.sparta.deliveryapp.model;
 
-import com.sparta.deliveryapp.dto.FoodOrderDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Getter
 public class OrderList {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -26,13 +25,12 @@ public class OrderList {
     private int deliveryFee;
 
     @OneToMany
-    private List<FoodOrder> foodOrder;
+    private List<Foods> foods;
 
-
-    public OrderList(String restaurantName, int deliveryFee, int totalPrice, ArrayList<FoodOrder> foodOrder) {
+    public OrderList(String restaurantName, int deliveryFee, int totalPrice, ArrayList<Foods> foods) {
         this.restaurantName=restaurantName;
         this.deliveryFee=deliveryFee;
         this.totalPrice=totalPrice;
-        this.foodOrder=foodOrder;
+        this.foods = foods;
     }
 }

@@ -1,6 +1,5 @@
 package com.sparta.deliveryapp.model;
 
-import com.sparta.deliveryapp.dto.FoodOrderDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +8,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class FoodOrder {
+public class Foods {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -24,7 +23,7 @@ public class FoodOrder {
     private int quantity;
 
 
-    public FoodOrder(Food food, int quantity) {
+    public Foods(Food food, int quantity) {
         this.name = food.getName();
         this.quantity = quantity;
         this.price = food.getPrice()*quantity;

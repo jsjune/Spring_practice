@@ -1,8 +1,5 @@
 package com.sparta.springweb.security;
 
-
-
-
 import com.sparta.springweb.model.User;
 import com.sparta.springweb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

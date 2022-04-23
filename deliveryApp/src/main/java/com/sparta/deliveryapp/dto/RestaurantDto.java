@@ -8,4 +8,7 @@ public class RestaurantDto {
     private String name;
     private int minOrderPrice;
     private int deliveryFee;
+
+//    private int paramX;
+//    private int paramY;
 }

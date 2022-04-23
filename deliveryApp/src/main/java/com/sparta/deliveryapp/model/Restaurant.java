@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -23,6 +23,12 @@ public class Restaurant {
 
     @Column(nullable = false)
     private int deliveryFee;
+
+//    @Column(nullable = false)
+//    private int paramX;
+//
+//    @Column(nullable = false)
+//    private int paramY;
 
     public Restaurant(RestaurantDto restaurantDto) {
         this.name = restaurantDto.getName();
