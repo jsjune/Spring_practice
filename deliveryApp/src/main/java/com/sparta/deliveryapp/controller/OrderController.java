@@ -2,6 +2,7 @@ package com.sparta.deliveryapp.controller;
 
 import com.sparta.deliveryapp.dto.OrderDto;
 import com.sparta.deliveryapp.dto.OrderRequestDto;
+import com.sparta.deliveryapp.dto.OrderResponseDto;
 import com.sparta.deliveryapp.model.OrderList;
 import com.sparta.deliveryapp.service.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,12 @@ public class OrderController {
     }
 
     // 주문 조회
+//    @GetMapping("/orders")
+//    public List<OrderList> showOrder() {
+//        return orderService.showOrder();
+//    }
     @GetMapping("/orders")
-    public List<OrderDto> showOrder() {
+    public List<OrderResponseDto> showOrder() {
         return orderService.showOrder();
     }
 }

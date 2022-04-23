@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantService {
@@ -29,8 +30,8 @@ public class RestaurantService {
     private static final int MAX_DELIVERYFEE = 10000;
     private static final int MIN_FOODPRICE = 100; // 100원 단위로만 입력 가능
     private static final int MAX_FOODPRICE = 1000000;
-    // "주문 음식 가격들의 총 합"이 주문 음식점의 "최소주문 가격"을 넘지 않을 시 에러 발생
 
+    // "주문 음식 가격들의 총 합"이 주문 음식점의 "최소주문 가격"을 넘지 않을 시 에러 발생
     private static void restaurantExceptions(RestaurantDto restaurantDto) {
         if (restaurantDto.getMinOrderPrice() > MAX_ORDERPRICE || restaurantDto.getMinOrderPrice() < MIN_ORDERPRICE) {
             throw new IllegalArgumentException("최소주문 가격 허용값 예외");
@@ -69,16 +70,13 @@ public class RestaurantService {
         }
     }
 
+
     // 음식 등록
     @Transactional
     public void setFood(Long restaurantId,List<FoodDto> foodDto){
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
                 ()->new IllegalArgumentException("아이디X")
         );
-
-//        if (foodDto.stream().map(FoodDto::getName).allMatch(new HashSet<>()::add)) {
-//            throw new IllegalArgumentException("중복");
-//        }
 
 //        HashSet<String> foodset = new HashSet<>();
 //        for (FoodDto newfood : foodDto) {
@@ -88,11 +86,16 @@ public class RestaurantService {
 //            throw new IllegalArgumentException("입력된 음식명에 중복 에러");
 //        }
 
+
         for (FoodDto newfood : foodDto) {
             List<Food> result = foodRepository.findByRestaurantIdAndName(restaurantId, newfood.getName()) ;
             if(result.size()>0){
                 throw new IllegalArgumentException("중복");
             }
+//            Optional<Food> menu = foodRepository.findByRestaurantIdAndName(restaurantId, newfood.getName());
+//            if (menu.isPresent()) {
+//                throw new IllegalArgumentException("이미 존재하는 메뉴입니다.");
+//            }
 
             Food food = new Food(newfood,restaurant);
             foodExceptions(food);
